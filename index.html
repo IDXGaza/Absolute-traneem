@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#4da8ab">
+    <title>ترانيم - Traneem</title>
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <meta name="apple-mobile-web-app-title" content="ترانيم" />
+    <meta name="application-name" content="ترانيم" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              cairo: ['Cairo', 'sans-serif'],
+            },
+          },
+        },
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Cairo', sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+        overscroll-behavior-y: none;
+        background-color: #f8fafb;
+      }
+      .dark body {
+        background-color: #000000;
+      }
+      .watercolor-bg {
+        background: radial-gradient(circle at 10% 20%, rgba(77, 168, 171, 0.05) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(77, 168, 171, 0.08) 0%, transparent 50%);
+      }
+      .dark .watercolor-bg {
+        background: radial-gradient(circle at 10% 20%, rgba(77, 168, 171, 0.1) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(15, 23, 42, 0.3) 0%, transparent 100%);
+        background-color: #000000;
+      }
+      .scroll-container::-webkit-scrollbar { width: 4px; }
+      .scroll-container::-webkit-scrollbar-track { background: transparent; }
+      .scroll-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+      .dark .scroll-container::-webkit-scrollbar-thumb { background: #334155; }
+      
+      button, .clickable {
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+
+      html.dark {
+        background-color: #000000;
+        color: #f1f5f9;
+      }
+      html.light {
+        background-color: #f8fafb;
+        color: #334155;
+      }
+
+      .dragging {
+        opacity: 0.5;
+        transform: scale(0.98);
+        background-color: rgba(77, 168, 171, 0.1) !important;
+      }
+    </style>
+    <script>
+      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom": "https://esm.sh/react-dom@^19.2.4",
+    "react-dom/client": "https://esm.sh/react-dom@^19.2.4/client",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+</head>
+  <body class="bg-[#f8fafb] dark:bg-black transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
+    <!-- تسجيل Service Worker للـ PWA -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('[PWA] Service Worker registered:', reg.scope))
+            .catch(err => console.warn('[PWA] Service Worker failed:', err));
+        });
+      }
+    </script>
+  </body>
+</html>
